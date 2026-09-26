@@ -1,0 +1,40 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Secrets and local settings
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.huggingface/token
+auth_token.txt
+secrets.*
+
+# Training-only artifacts: review before publishing
+data/private/
+data/raw/
+checkpoints/
+runs/
+outputs/
+logs/
+wandb/
+tensorboard/
+optimizer.pt
+scheduler.pt
+trainer_state.json
+
+# Temporary and partial downloads
+*.tmp
+*.part
+*.download

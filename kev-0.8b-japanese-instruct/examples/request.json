@@ -1,0 +1,24 @@
+{
+  "state": "請求が二重になっているため、利用者が至急の確認を求めている。",
+  "model": "kev-latest",
+  "questions": {
+    "department": {
+      "type": "choice",
+      "instructions": "担当部署を選んでください。",
+      "criteria": {
+        "billing": "請求、決済、返金",
+        "technical": "技術的な問題",
+        "general": "一般的な問い合わせ"
+      }
+    },
+    "urgent": {
+      "type": "noul",
+      "instructions": "優先対応が必要ですか？"
+    },
+    "priority": {
+      "type": "score",
+      "instructions": "対応優先度を評価してください。",
+      "criteria": ["低", "中", "高"]
+    }
+  }
+}

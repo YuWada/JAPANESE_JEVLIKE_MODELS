@@ -1,0 +1,24 @@
+{
+  "department": {
+    "type": "choice",
+    "instructions": "どの担当部署へ振り分けるべきですか？",
+    "criteria": {
+      "billing": "請求、決済、返金に関する問題",
+      "technical": "技術的な不具合",
+      "general": "一般的な問い合わせ"
+    }
+  },
+  "urgent": {
+    "type": "noul",
+    "instructions": "この問い合わせは緊急対応が必要ですか？",
+    "criteria": {
+      "false": "通常の順番で対応できる",
+      "true": "優先して人間が確認する必要がある"
+    }
+  },
+  "priority": {
+    "type": "score",
+    "instructions": "対応優先度を評価してください。",
+    "criteria": ["低", "中", "高"]
+  }
+}

@@ -1,0 +1,39 @@
+[
+  {
+    "id": "billing-route",
+    "state": "クレジットカードの請求が同じ注文について二重に記録されている。",
+    "question": {
+      "type": "choice",
+      "instructions": "どの担当部署へ振り分けるべきですか？",
+      "criteria": {
+        "billing": "請求、決済、返金に関する問題",
+        "technical": "技術的な不具合",
+        "general": "一般的な問い合わせ"
+      }
+    },
+    "expected": "billing"
+  },
+  {
+    "id": "human-review",
+    "state": "本人確認書類と登録情報の照合に成功し、規定に従って自動処理が完了した。人間による追加確認は不要である。",
+    "question": {
+      "type": "noul",
+      "instructions": "人間による確認が必要ですか？",
+      "criteria": {
+        "false": "自動処理を継続できる",
+        "true": "人間による確認が必要"
+      }
+    },
+    "expected": false
+  },
+  {
+    "id": "priority-score",
+    "state": "全ユーザーがログインできず、主要サービスが停止して業務を継続できない。",
+    "question": {
+      "type": "score",
+      "instructions": "対応優先度を評価してください。",
+      "criteria": ["低", "中", "高"]
+    },
+    "expected": 2
+  }
+]

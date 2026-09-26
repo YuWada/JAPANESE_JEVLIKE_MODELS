@@ -1,0 +1,11 @@
+[project]
+name = "kev-0-8b-japanese-instruct-example"
+version = "0.1.0"
+description = "Inference examples for a Japanese-instruction Kev fine-tune"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+  "kev[mlx,serve] @ git+https://github.com/jaredpalmer/kev.git@c104d73fb74b52f4e9c99bf56b8e38aecc2841b0",
+]
+
+[tool.uv]
+package = false

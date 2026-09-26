@@ -1,0 +1,5 @@
+7a2e02e7857cd603a94cc9044068580afadddf56b6ebbd289032fc93251746a8  kev-0.8b-japanese-instruct/model/adapter_model.safetensors
+0c645c866969f1d42f9f2ea847588173171f71872cd9cf705c4e3d17c1ab0053  kev-0.8b-japanese-instruct/model/head.pt
+06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523  kev-0.8b-japanese-instruct/model/tokenizer.json
+f25ce50699bf97cfd52fa225e83e7bfebd4f684407e79fd603605898752eac64  laya-multilingual-japanese-instruct/model-mlx/model.safetensors
+609d8f4c067cd3950f88594c5a802616cea245823836ef5848ee4fc40aab5b6f  laya-multilingual-japanese-instruct/model-mlx/tokenizer/tokenizer.json

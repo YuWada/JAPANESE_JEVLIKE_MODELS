@@ -1,0 +1,23 @@
+JAPANESE_JEVLIKE_MODELS
+Copyright 2026 Yu Wada
+
+This repository contains derivative model artifacts based on:
+
+- Kev and kev-0.8b, developed by Jared Palmer and contributors.
+  https://github.com/jaredpalmer/kev
+  https://huggingface.co/jaredpalmer/kev-0.8b
+
+- Qwen3.5-0.8B-Base, developed by the Qwen team.
+  https://huggingface.co/Qwen/Qwen3.5-0.8B-Base
+
+- Laya multilingual, developed by Convai Innovations and contributors.
+  https://github.com/NandhaKishorM/laya
+  https://huggingface.co/convaiinnovations/laya-multilingual
+
+- mmBERT-base, published by the Johns Hopkins University Center for
+  Language and Speech Processing.
+  https://huggingface.co/jhu-clsp/mmBERT-base
+
+The names and trademarks of the upstream projects belong to their
+respective owners. These derivative models are not official releases of
+the upstream projects.

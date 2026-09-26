@@ -1,0 +1,8 @@
+{
+  "format": "laya-mlx",
+  "format_version": 1,
+  "dtype": "float16",
+  "source": "YuWada/JAPANESE_JEVLIKE_MODELS:laya-multilingual-japanese-instruct",
+  "revision": null,
+  "subfolder": null
+}
