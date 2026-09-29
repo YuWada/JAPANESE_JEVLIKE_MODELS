@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>KevとLayaの特性・追加学習・使い分け</title>
+  <style>
+    :root{--bg:#f4f2ed;--paper:#fffefa;--ink:#18231f;--muted:#63716b;--line:#d7ddd7;--kev:#285d86;--kev-soft:#e8f1f8;--laya:#a25220;--laya-soft:#f8ece4;--green:#0b6b55;--green-soft:#e2f2ec;--amber:#8a5905;--amber-soft:#f8eed9;--red:#984236;--code:#edf1ed;--shadow:0 15px 44px rgba(20,40,32,.07)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic UI","Yu Gothic",Meiryo,sans-serif;line-height:1.78}.page{max-width:1160px;margin:auto;padding:28px 22px 68px}a{color:var(--kev);text-underline-offset:3px}header{background:linear-gradient(135deg,#173c50,#0c654f);color:#fff;border-radius:24px;padding:48px 52px;box-shadow:var(--shadow)}header h1{font-size:clamp(2rem,5vw,3.55rem);line-height:1.16;letter-spacing:-.045em;margin:.2em 0}.eyebrow{font-size:.78rem;letter-spacing:.13em;opacity:.78;text-transform:uppercase}header p{max-width:830px;font-size:1.08rem;opacity:.92;margin:.7em 0}.meta{font-size:.83rem;opacity:.73;margin-top:20px}.layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:28px;margin-top:28px;align-items:start}nav{position:sticky;top:18px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}nav strong{display:block;color:var(--muted);font-size:.76rem;letter-spacing:.09em;margin-bottom:8px}nav a{display:block;color:var(--ink);text-decoration:none;padding:6px 7px;border-radius:7px;font-size:.87rem;line-height:1.42}nav a:hover{background:var(--green-soft);color:var(--green)}main{min-width:0}section{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:34px 38px;margin-bottom:23px;box-shadow:0 9px 32px rgba(20,40,32,.04)}h2{font-size:1.62rem;line-height:1.35;letter-spacing:-.025em;margin:0 0 18px}h3{font-size:1.12rem;margin:28px 0 9px}p{margin:.55em 0 1em}.lede{font-size:1.09rem;color:#35453f}.callout{border-left:5px solid var(--green);background:var(--green-soft);padding:18px 21px;border-radius:0 13px 13px 0;margin:19px 0}.warning{border-left:5px solid var(--amber);background:var(--amber-soft);padding:17px 20px;border-radius:0 12px 12px 0;margin:18px 0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:19px 0}.card{border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--paper)}.card.kev{border-top:5px solid var(--kev);background:color-mix(in srgb,var(--paper) 88%,var(--kev-soft))}.card.laya{border-top:5px solid var(--laya);background:color-mix(in srgb,var(--paper) 88%,var(--laya-soft))}.card h3{margin:0 0 8px}.tag{display:inline-block;border-radius:999px;padding:2px 9px;margin-right:5px;font-size:.73rem;font-weight:700;background:var(--code)}.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:9px;align-items:center;margin:18px 0}.flow>div{padding:15px;border:1px solid var(--line);border-radius:11px;text-align:center;background:var(--paper)}.flow .arrow{border:0;background:transparent;color:var(--green);font-weight:800;font-size:1.25rem;padding:0}.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:17px 0}table{width:100%;border-collapse:collapse;font-size:.9rem}.table-wrap table{min-width:720px}th,td{text-align:left;vertical-align:top;border-bottom:1px solid var(--line);padding:11px 10px}th{font-size:.77rem;letter-spacing:.03em;color:var(--muted);background:color-mix(in srgb,var(--paper) 83%,var(--kev-soft))}tr:last-child td{border-bottom:0}.kev-text{color:var(--kev);font-weight:700}.laya-text{color:var(--laya);font-weight:700}.good{color:var(--green);font-weight:700}.bad{color:var(--red);font-weight:700}.small{font-size:.84rem;color:var(--muted)}code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);border-radius:5px;padding:.12em .35em;font-size:.9em}.steps{counter-reset:item;padding:0;margin:18px 0}.steps li{list-style:none;position:relative;padding:4px 0 18px 46px}.steps li::before{counter-increment:item;content:counter(item);position:absolute;left:0;top:2px;width:31px;height:31px;border-radius:50%;background:var(--green);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}.decision{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}.decision>div{border:1px solid var(--line);border-radius:14px;padding:18px}.decision h3{margin:0 0 8px}.source-list{columns:2;column-gap:30px;padding-left:20px}.source-list li{break-inside:avoid;margin-bottom:11px}.footer{text-align:center;color:var(--muted);font-size:.8rem;padding:11px}.nowrap{white-space:nowrap}
+    @media(max-width:880px){.layout{grid-template-columns:1fr}nav{position:static}.grid,.decision{grid-template-columns:1fr}.flow{grid-template-columns:1fr}.flow .arrow{transform:rotate(90deg)}header{padding:39px 31px}.source-list{columns:1}}
+    @media(max-width:560px){.page{padding:11px 9px 39px}header{padding:29px 21px;border-radius:16px}section{padding:24px 19px;border-radius:15px}}
+    @media(prefers-color-scheme:dark){:root{--bg:#101714;--paper:#17211d;--ink:#edf5f1;--muted:#a9b7b1;--line:#35433d;--kev:#8bc7ed;--kev-soft:#183349;--laya:#efad7d;--laya-soft:#40291e;--green:#79d8bd;--green-soft:#183b32;--amber:#ecc475;--amber-soft:#3d311d;--red:#ee9b90;--code:#202e29;--shadow:none}.lede{color:#cbd8d2}}
+    @media print{body{background:#fff;color:#111}.page{max-width:none;padding:0}header,section{box-shadow:none}nav{display:none}.layout{display:block}.card,.callout,.warning,.danger{break-inside:avoid}}
+  </style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="eyebrow">Architecture · Fine-tuning · Deployment</div>
+    <h1>KevとLayaの特性・追加学習・使い分け</h1>
+    <p>同じJev型APIを扱う二つの公開モデルでも、土台、判断の仕組み、追加学習の効き方は異なる。今回の日本語追加学習と実測をもとに、どちらを、どのような用途で使うべきかを整理する。</p>
+    <div class="meta">調査・実測整理日: 2026-09-29 ／ 対象: Kev 0.8B・Laya multilingual 322M</div>
+  </header>
+
+  <div class="layout">
+    <nav aria-label="目次">
+      <strong>CONTENTS</strong>
+      <a href="#summary">1. 結論</a>
+      <a href="#architecture">2. 根本的な違い</a>
+      <a href="#training">3. 追加学習の違い</a>
+      <a href="#results">4. 今回の実測</a>
+      <a href="#interpretation">5. 結果の読み方</a>
+      <a href="#specialize">6. なぜ狭く特化するか</a>
+      <a href="#selection">7. 使い分け</a>
+      <a href="#recipe">8. 推奨学習設計</a>
+      <a href="#limits">9. 限界と注意</a>
+      <a href="#sources">10. 参考資料</a>
+    </nav>
+
+    <main>
+      <section id="summary">
+        <h2>1. 結論</h2>
+        <p class="lede">通常状態の幅広い理解ではKevが優位になりやすく、固定された狭い判断を高速に繰り返す用途ではLayaを特化させる価値が高い。</p>
+        <div class="callout"><strong>今回得られた中心的な教訓</strong><p>小型モデルへ大量の「一般的な日本語問題」を追加しても、あらゆる問いに対する能力が一様に上がるとは限らない。一方、実際に本番で尋ねる質問、その質問で使う選択肢、実際に現れる発話、間違いやすい反例を揃え、用途を限定して学習すれば、精度と速度を両立できる可能性がある。</p></div>
+        <div class="grid">
+          <article class="card kev"><h3>Kev</h3><p><span class="tag">汎用寄り</span><span class="tag">Qwen系</span></p><p>生成LLMの事前学習表現を利用するため、未学習の言い回しや条件理解に比較的強い。ただしLayaより大きく、追加学習と推論は重い。</p></article>
+          <article class="card laya"><h3>Laya</h3><p><span class="tag">特化向き</span><span class="tag">Encoder系</span></p><p>小型・高速で、決められた分類やルーティングへ適応させやすい。反面、学習範囲外の知識や未知パターンへのゼロショット対応には期待しすぎない方がよい。</p></article>
+        </div>
+      </section>
+
+      <section id="architecture">
+        <h2>2. 根本的な仕組みの違い</h2>
+        <div class="table-wrap"><table><thead><tr><th>観点</th><th class="kev-text">Kev</th><th class="laya-text">Laya</th></tr></thead><tbody>
+          <tr><td>土台</td><td>Qwen3.5系のCausal言語モデル</td><td>ModernBERT／mmBERT系の双方向Encoder</td></tr>
+          <tr><td>今回のモデル規模</td><td>約0.8B</td><td>約322M</td></tr>
+          <tr><td>文章の読み方</td><td>基本的に左から右へ処理する</td><td>全文の前後関係を双方向に処理する</td></tr>
+          <tr><td>判断部分</td><td>Pointer headが判断位置と選択肢表現を比較</td><td>Decision headで処理し、各候補マーカーをScorerで採点</td></tr>
+          <tr><td>得意な方向</td><td>広めの文章理解、条件適用、未知表現への対応</td><td>固定分類、意図判定、業務ルーティング、高速処理</td></tr>
+          <tr><td>出力</td><td colspan="2">どちらも文章を生成せず、Noul・Choice・Scoreの値と確率分布を返す</td></tr>
+        </tbody></table></div>
+
+        <h3>Kev: 生成LLMの内部表現から候補を指す</h3>
+        <div class="flow"><div><b>state・質問・候補</b><br>一つの判断用入力へ整形</div><div class="arrow">→</div><div><b>Qwenの内部表現</b><br>文章と条件を処理</div><div class="arrow">→</div><div><b>Pointer head</b><br>各候補との近さを確率化</div></div>
+        <p>KevはQwenに回答文を生成させるのではない。質問末尾の「判断位置」と、各候補末尾の内部表現をPointer headで比較し、候補別のロジットを作る。生成LLMが事前学習で獲得した言語表現を判断へ転用する設計である。</p>
+
+        <h3>Laya: 分類向けEncoderで全文を読み、候補を採点する</h3>
+        <div class="flow"><div><b>state・質問・候補</b><br>候補マーカー付きで整形</div><div class="arrow">→</div><div><b>ModernBERT Encoder</b><br>全文を双方向に処理</div><div class="arrow">→</div><div><b>Decision head</b><br>候補マーカーを採点</div></div>
+        <p>Layaは文章生成を前提としないEncoder型である。Encoder出力に質問形式の埋め込みを加え、小型TransformerのDecision headを通し、各候補のマーカー位置を共通Scorerで評価する。分類処理に集中できるため、小型かつ高速にしやすい。</p>
+      </section>
+
+      <section id="training">
+        <h2>3. 追加学習方法の違い</h2>
+        <div class="table-wrap"><table><thead><tr><th>観点</th><th class="kev-text">Kev</th><th class="laya-text">Laya</th></tr></thead><tbody>
+          <tr><td>主に更新する部分</td><td>Qwenへ挿入したLoRAとPointer head</td><td>EncoderとDecision headの両方</td></tr>
+          <tr><td>標準的な目的関数</td><td>正解候補に対するCross Entropyが中心</td><td>Soft Cross EntropyとProper Scoring Rule由来の方策勾配を併用</td></tr>
+          <tr><td>既存能力の保持</td><td>公開Kevからwarm startし、低い学習率で差分学習する</td><td>モデル全体が動くため、対象外能力の回帰を必ず測る</td></tr>
+          <tr><td>配布形態</td><td>LoRA adapter＋Pointer head。対応するQwen本体が必要</td><td>Encoder＋Decision headを含むモデル全体</td></tr>
+          <tr><td>今回の約1.6万件学習</td><td>約247分</td><td>約41分</td></tr>
+        </tbody></table></div>
+        <div class="warning"><strong>「強化学習」という呼び方について</strong><p>Kevの追加学習は基本的に教師あり分類学習である。LayaはRLCDと呼ばれる方策勾配風の処理を含むが、環境内で行動を繰り返す一般的なエージェント強化学習とは異なり、正解確率分布への近さを報酬として使う学習と教師あり学習の混合である。本稿では両者をまとめて「追加学習」「特化チューニング」と呼ぶ。</p></div>
+        <p>Layaは全体の重みを更新してもモデル自体が小さく、分類向けの構造なので学習が速かった。KevはLoRA中心でも、より大きなQwenを通して勾配を計算するため時間がかかった。これは今回のApple Silicon環境での実測であり、GPUやバッチ条件が変われば倍率も変わる。</p>
+      </section>
+
+      <section id="results">
+        <h2>4. 今回の追加学習と41問実測</h2>
+        <p>日本語QA 41問のうち、唯一の理想回答を置ける38問と、AIエージェントに関する21問を切り出して比較した。確率分布については、評価用に設定した理想分布との平均絶対誤差を参考値として用いた。</p>
+        <div class="table-wrap"><table><thead><tr><th>指標</th><th>Kev通常版</th><th>Kev強化版</th><th>Laya通常版</th><th>Laya強化版</th></tr></thead><tbody>
+          <tr><td>明確な正解を置ける38問の回答一致</td><td class="good">28 / 38</td><td class="bad">26 / 38</td><td>25 / 38</td><td class="good">28 / 38</td></tr>
+          <tr><td>AIエージェント関連21問の回答一致</td><td>16 / 21</td><td>15 / 21</td><td>15 / 21</td><td>16 / 21</td></tr>
+          <tr><td>エージェント21問の理想分布との差</td><td>0.279</td><td class="good">0.241</td><td>0.256</td><td class="good">0.176</td></tr>
+          <tr><td>41問の平均推論時間</td><td>約57ms</td><td>約56ms</td><td>約15ms</td><td class="good">約14ms</td></tr>
+        </tbody></table></div>
+        <p class="small">回答一致は、Noulでは0.5を境に「はい／いいえ」を決め、Choiceでは選択ラベルを比較した。コインやサイコロなど唯一解を置かない例は回答一致から除外した。理想分布は説明・比較用に設定したものであり、自然界の真の確率や統計的な保証ではない。</p>
+
+        <h3>改善した領域</h3>
+        <ul>
+          <li>機能選択8問では、Kev・Layaともに8問中7問で強化版の確率分布が理想へ近づいた。</li>
+          <li>Kevは、施設探索を単なるWEB検索ではなくPOI検索へ振り分けられるようになった。</li>
+          <li>Layaは、暗黙的な施設探索を雑談ではなく目的地・施設探索として扱えるようになった。</li>
+          <li>Laya強化版は、今回の全体集計でも通常版より回答一致数が増え、確率分布の差も縮小した。</li>
+        </ul>
+
+        <h3>回帰した領域</h3>
+        <ul>
+          <li>過去の依頼を引用しただけの発話を、現在の操作依頼と判断する。</li>
+          <li>機能についての知識質問を、機能を操作する依頼と判断する。</li>
+          <li>独り言や助手席の人への会話を、AIへの呼びかけと判断する。</li>
+        </ul>
+        <div class="callout"><strong>学習効果そのものは別途確認できている</strong><p>追加学習に使用した質問そのもの、またはほぼ同じ形式の質問を入力すると、訓練で与えた内容に沿った回答を返すことは確認済みである。したがって、学習が反映されていないわけではない。ただし、その効果が別形式のエージェント判断へ広く転移したとは、今回の結果からは言いにくい。</p></div>
+      </section>
+
+      <section id="interpretation">
+        <h2>5. 実測結果をどう解釈するか</h2>
+        <h3>Kev通常版の方が基礎的な理解はよかった</h3>
+        <p>追加学習前の比較では、明確な正解を置ける38問でKevが28問、Layaが25問だった。今回使用したKevは約0.8Bで、Layaは約322Mである。モデルサイズだけで性能は決まらないが、KevはQwenの事前学習表現を利用するため、未学習の言い回しや一般的な条件理解で有利になった可能性がある。</p>
+        <p>これは「Kevは常にLayaより正しい」という意味ではない。今回の問題集合では、追加学習前のKevがよりよい出発点だった、という限定的な結果である。</p>
+
+        <h3>エージェント処理全般への改善は明確ではなかった</h3>
+        <p>AIエージェント関連21問の回答一致は、Kevが16問から15問、Layaが15問から16問だった。いずれも1問の差にすぎず、この小規模評価からエージェント処理全般が改善したとは言えない。確率分布は理想へ近づいた項目もあったが、回答ラベルでは改善と回帰が混在した。</p>
+        <p>Layaは推論がKevより約4倍高速であり、固定された専用QAへ適応させる土台としての利点はある。しかし、速度上の利点と、エージェント能力全般の向上は分けて評価する必要がある。</p>
+        <p>一方、Laya公式資料も、基礎チェックポイントは特定のtyped-decisions課題でゼロショットでは多数派ベースラインを下回り、価値の多くがファインチューニングから得られると説明している。Layaは、何でも判断できる小型汎用モデルというより、<strong>高速な特化モデルを作るための土台</strong>として見る方がよい。</p>
+
+        <h3>Kev強化版は確率分布が改善しても最終ラベルが減った</h3>
+        <p>Kev強化版は21問中15問で理想分布へ近づいたが、回答一致数は16問から15問へ減った。多くの例で数値が望ましい方向へ動いても、0.5の判定境界をまたいで誤答になる問題があった。また、要求を積極的に検出する方向へ寄り、独り言や条件不一致まで要求として拾う回帰も見られた。ここでも、確率分布の変化を汎用的な性能向上と同一視すべきではない。</p>
+        <p>この結果は、追加学習の成功を平均損失だけで判断せず、質問群ごとの回答、確率校正、誤作動率を別々に見る必要があることを示す。</p>
+      </section>
+
+      <section id="specialize">
+        <h2>6. 「ドメイン全般」より「本当に聞くQA」へ特化する</h2>
+        <p class="lede">「AIエージェントとして全般的に強くする」「日本語能力を全般的に上げる」といった広い目標より、本番で実際に投げる質問を中心にデータを設計した方が、改善を測りやすく、失敗も制御しやすい。</p>
+        <p>小型モデルの容量には限りがある。広いドメインの文章を大量に追加しても、本当に必要な判断境界が明確になるとは限らない。むしろ、学習頻度の高い表現へ反応が偏り、対象外の問いで回帰する可能性がある。</p>
+        <div class="table-wrap"><table><thead><tr><th>広すぎる学習目標</th><th>推奨する狭い学習目標</th></tr></thead><tbody>
+          <tr><td>AIエージェントに強くする</td><td>「この発話はカレンダー登録依頼か」を判定する</td></tr>
+          <tr><td>エージェント能力を上げる</td><td>検索・予定登録・メッセージ送信・会話へ振り分ける</td></tr>
+          <tr><td>操作判断を全般的に上げる</td><td>メッセージ送信依頼を「実行／確認が必要／対象外」へ分類する</td></tr>
+          <tr><td>日本語理解を上げる</td><td>引用、否定、独り言、第三者への発話を操作依頼から除外する</td></tr>
+          <tr><td>営業時間を理解させる</td><td>実際に扱う営業時間表現と日時から営業中かを判定する</td></tr>
+        </tbody></table></div>
+        <div class="callout"><strong>学習対象にすべきもの</strong><p>本番と同じ質問文、同じ候補名、同じ判断基準、実際に現れるstateを使う。さらに、正例だけでなく、単語は似ているが答えが逆になる反例を十分に入れる。単に「エアコン」という語を覚えさせるのではなく、操作依頼、知識質問、引用、独り言、第三者への発話の境界を学ばせる。</p></div>
+        <p>この方法なら、Layaの小ささと速さを保ったまま、単一用途で高い性能を狙いやすい。Kevでも同様に、公開チェックポイントから低い学習率で追加学習し、対象質問と近接反例へ絞ることで、既存能力の回帰を抑えながら改善を狙える。</p>
+      </section>
+
+      <section id="selection">
+        <h2>7. KevとLayaの使い分け</h2>
+        <div class="decision">
+          <div><h3 class="kev-text">Kevを選びやすい条件</h3><ul><li>質問や文章の種類が比較的広い</li><li>未学習の言い回しにもある程度対応したい</li><li>複雑な条件文や規程を読ませたい</li><li>多少の計算資源・遅延を許容できる</li><li>まず強い通常版から始めたい</li></ul></div>
+          <div><h3 class="laya-text">Layaを選びやすい条件</h3><ul><li>質問と候補を固定できる</li><li>用途別の教師データを十分に作れる</li><li>大量・低遅延・オンデバイス処理を重視する</li><li>機能ルーティングや意図分類が中心</li><li>用途ごとにモデルを分けてもよい</li></ul></div>
+        </div>
+        <h3>推奨する実運用構成</h3>
+        <div class="flow"><div><b>Laya特化モデル</b><br>固定QAを高速判定</div><div class="arrow">→</div><div><b>低confidence・対象外</b><br>保留、追加確認</div><div class="arrow">→</div><div><b>Kevまたは上位LLM</b><br>複雑例だけ再判断</div></div>
+        <p>すべてを一つのモデルへ任せる必要はない。頻出する定型判断をLayaへ寄せ、難しい例や未知例だけKevまたは上位モデルへ送るカスケード構成なら、速度と一般理解を両立しやすい。</p>
+        <p>実行可否の判断は機能ルーティングから独立させる。「どの機能を使うか」が決まっても、「その依頼をそのまま実行してよいか」は別モデル・別質問・明示的なルールで判定する。</p>
+      </section>
+
+      <section id="recipe">
+        <h2>8. 特化モデルを作るときの推奨手順</h2>
+        <ol class="steps">
+          <li><strong>本番の質問を固定する。</strong><br>実際に使用するinstructions、Choice候補、Noul命題を先に決める。学習時と本番で質問文を大きく変えない。</li>
+          <li><strong>通常例ではなく判断境界を集める。</strong><br>明確な正例・負例に加え、引用、否定、婉曲表現、条件不足、第三者への発話など、モデルが混同しやすい近接反例を集める。</li>
+          <li><strong>用途ごとに分ける。</strong><br>機能選択、発話先判定、実行可否、条件判定を、一つの曖昧な「エージェント能力」にまとめない。</li>
+          <li><strong>学習・校正・最終テストを分離する。</strong><br>学習に使った例で改善を主張しない。確率のtemperature調整用データと、最終評価データも分ける。</li>
+          <li><strong>通常版との回帰比較を残す。</strong><br>改善した問題だけでなく、通常版では正解していたのに強化版で誤った問題を必ず一覧化する。</li>
+          <li><strong>確率分布と閾値を評価する。</strong><br>正解数だけでなくBrier score、NLL、ECE、高確信誤答、所定の誤り率で自動実行できる割合を見る。</li>
+          <li><strong>対象外を処理できる設計にする。</strong><br>低confidence時の保留、上位モデルへの移送、人間確認、明示的な対象外候補を用意する。</li>
+        </ol>
+        <div class="warning"><strong>大量データより、境界を表すデータ</strong><p>件数を増やすだけでは十分ではない。同じ簡単な正例を大量に入れるより、「なぜ似ているのに答えが違うのか」が明確な対照例を揃える方が、本番で必要な判断境界を学ばせやすい。</p></div>
+      </section>
+
+      <section id="limits">
+        <h2>9. この考察の限界</h2>
+        <ul>
+          <li>今回の41問は小規模な手作業評価であり、一般的なモデル順位を確定するベンチマークではない。</li>
+          <li>Kev 0.8BとLaya 322Mでは規模、構造、実行系が異なるため、構造だけの公平な比較ではない。</li>
+          <li>推論時間と学習時間は今回の端末・実装・バッチ設定での値である。</li>
+          <li>理想確率は評価用に置いた値であり、統計的に推定された真の確率ではない。</li>
+          <li>追加学習の結果は、モデル構造だけでなく、データ構成、質問表現、学習率、エポック数、損失関数、校正方法に左右される。</li>
+        </ul>
+        <p>したがって、最終判断は「KevとLayaのどちらが一般に優秀か」ではなく、<strong>対象QA、許容遅延、誤判定コスト、教師データ量、対象外処理</strong>を含めて行うべきである。</p>
+      </section>
+
+      <section id="sources">
+        <h2>10. 主要参考資料</h2>
+        <ol class="source-list">
+          <li><a href="https://github.com/jaredpalmer/kev">Kev公式リポジトリ</a> — モデル構成、Pointer head、公開モデル、追加学習</li>
+          <li><a href="https://github.com/jaredpalmer/kev/tree/main/skills/kev-finetune">Kev公式Fine-tuningガイド</a> — in-distribution学習、warm start、評価設計</li>
+          <li><a href="https://huggingface.co/jaredpalmer/kev-0.8b">Kev 0.8Bモデルカード</a></li>
+          <li><a href="https://github.com/NandhaKishorM/laya">Laya公式リポジトリ</a> — Encoder構成、ベンチマーク、制約</li>
+          <li><a href="https://github.com/NandhaKishorM/laya/blob/main/notebooks/laya_finetune_typed_decisions_2xT4_kaggle.ipynb">Laya公式Fine-tuningノートブック</a> — RLCD、確率分布学習、temperature fitting</li>
+          <li><a href="https://huggingface.co/convaiinnovations/laya-multilingual">Laya multilingualモデルカード</a></li>
+          <li><a href="JEV_WEB調査結果.html">Jev入門 — NoulとChoiceを日本語QAで理解する</a></li>
+        </ol>
+        <div class="callout"><strong>要約</strong><p>Kevは、比較的広い理解を持つQwenを判断モデルへ転用する選択肢である。Layaは、高速なEncoderを本番QAへ特化させる選択肢である。小型モデルに「ドメイン全般」を覚えさせようとするより、実際に尋ねる質問と間違いやすい反例へ狭く学習し、対象外を別経路へ逃がす構成の方が、精度、速度、運用上の説明可能性を両立しやすい。</p></div>
+      </section>
+
+      <div class="footer">Kev・Laya 日本語追加学習の比較考察 · 2026-09-29</div>
+    </main>
+  </div>
+</div>
+</body>
+</html>
