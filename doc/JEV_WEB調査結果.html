@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Jev入門 — NoulとChoiceを日本語QAで理解する</title>
+  <style>
+    :root{--bg:#f3f1eb;--paper:#fffefa;--ink:#17231f;--muted:#64716c;--line:#d8ddd7;--green:#0b6b55;--green-soft:#e1f1eb;--blue:#245f88;--blue-soft:#e8f1f8;--amber:#8a5905;--amber-soft:#f7edd6;--code:#edf1ed;--shadow:0 16px 46px rgba(20,40,32,.07)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic UI","Yu Gothic",Meiryo,sans-serif;line-height:1.8}a{color:var(--blue);text-underline-offset:3px}.page{max-width:1100px;margin:auto;padding:28px 22px 64px}header{background:linear-gradient(135deg,#0b5545,#193e50);color:#fff;border-radius:24px;padding:48px 50px;box-shadow:var(--shadow)}header h1{font-size:clamp(2rem,5vw,3.7rem);line-height:1.15;letter-spacing:-.04em;margin:.2em 0}.eyebrow{font-size:.78rem;letter-spacing:.13em;opacity:.75;text-transform:uppercase}header p{max-width:760px;font-size:1.07rem;opacity:.9;margin:.5em 0}.meta{font-size:.83rem;opacity:.72;margin-top:20px}.layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:28px;margin-top:28px;align-items:start}nav{position:sticky;top:18px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}nav strong{display:block;color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}nav a{display:block;color:var(--ink);text-decoration:none;padding:6px 7px;border-radius:7px;font-size:.88rem;line-height:1.45}nav a:hover{background:var(--green-soft);color:var(--green)}main{min-width:0}section{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:34px 38px;margin-bottom:23px;box-shadow:0 9px 32px rgba(20,40,32,.04)}h2{font-size:1.62rem;line-height:1.35;letter-spacing:-.025em;margin:0 0 18px}h3{font-size:1.12rem;margin:27px 0 9px}p{margin:.55em 0 1em}.lede{font-size:1.08rem;color:#34443e}.callout{border-left:5px solid var(--green);background:var(--green-soft);padding:18px 21px;border-radius:0 13px 13px 0;margin:18px 0}.warning{border-left:5px solid var(--amber);background:var(--amber-soft);padding:17px 20px;border-radius:0 12px 12px 0;margin:18px 0}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin:18px 0}.card{border:1px solid var(--line);border-radius:13px;padding:16px;background:color-mix(in srgb,var(--paper) 92%,var(--blue-soft))}.card b{display:block;color:var(--green);margin-bottom:4px}.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:center;margin:22px 0}.flow>div{padding:15px;border:1px solid var(--line);border-radius:11px;text-align:center}.flow .arrow{border:0;color:var(--green);font-size:1.3rem;padding:0}.io-pair{display:grid;grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr);gap:10px;align-items:stretch;margin:18px 0}.io{border:1px solid var(--line);border-radius:13px;overflow:hidden;min-width:0}.io-title{padding:8px 13px;font-size:.8rem;font-weight:800;letter-spacing:.04em;background:var(--blue-soft);color:var(--blue)}.io.return .io-title{background:var(--green-soft);color:var(--green)}.io pre{margin:0;border-radius:0;height:100%;min-height:150px}.io-arrow{display:flex;align-items:center;justify-content:center;color:var(--green);font-size:1.45rem;font-weight:800}.mini-io{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.mini-io>div{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:color-mix(in srgb,var(--paper) 94%,var(--blue-soft));min-width:0}.mini-io b{display:block;color:var(--green);font-size:.78rem;letter-spacing:.04em;margin-bottom:5px}.mini-io code{white-space:normal;overflow-wrap:anywhere}code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);border-radius:5px;padding:.12em .35em;font-size:.9em}pre{background:#14231e;color:#d9f3e8;border-radius:12px;padding:18px;overflow:auto;line-height:1.55;font-size:.88rem}pre code{background:none;padding:0;color:inherit}.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:17px 0}table{width:100%;border-collapse:collapse;font-size:.9rem}.table-wrap table{min-width:650px}th,td{text-align:left;vertical-align:top;border-bottom:1px solid var(--line);padding:11px 10px}th{font-size:.77rem;letter-spacing:.04em;color:var(--muted);background:color-mix(in srgb,var(--paper) 83%,var(--blue-soft))}tr:last-child td{border-bottom:0}.qa-list{display:grid;gap:16px;margin:20px 0}.qa{border:1px solid var(--line);border-radius:15px;overflow:hidden}.qa-head{background:var(--blue-soft);padding:13px 17px;font-weight:700}.qa-body{padding:17px}.q{display:grid;grid-template-columns:3.2em 1fr;gap:8px;margin:7px 0}.label{font-size:.76rem;font-weight:700;color:var(--green);letter-spacing:.04em}.response{background:var(--code);border-radius:10px;padding:13px 15px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.83rem;line-height:1.65;margin:12px 0;overflow-wrap:anywhere}.reading{font-size:.91rem;color:#33433d;margin-bottom:0}.caption{font-size:.82rem;color:var(--muted)}.source-list{columns:2;column-gap:28px;padding-left:20px}.source-list li{break-inside:avoid;margin-bottom:10px}.footer{text-align:center;color:var(--muted);font-size:.8rem;padding:10px}
+    @media(max-width:850px){.layout{grid-template-columns:1fr}nav{position:static}.grid{grid-template-columns:1fr}.io-pair{grid-template-columns:1fr}.io-arrow{transform:rotate(90deg)}.source-list{columns:1}header{padding:38px 30px}}
+    @media(max-width:560px){.page{padding:11px 9px 38px}header{padding:29px 21px;border-radius:16px}section{padding:24px 19px;border-radius:15px}.flow{grid-template-columns:1fr}.flow .arrow{transform:rotate(90deg)}.mini-io{grid-template-columns:1fr}.q{grid-template-columns:1fr}}
+    @media(prefers-color-scheme:dark){:root{--bg:#101714;--paper:#17211d;--ink:#edf5f1;--muted:#a8b6b0;--line:#35433d;--green:#79d8bd;--green-soft:#183b32;--blue:#8bc7ed;--blue-soft:#183349;--amber:#ecc475;--amber-soft:#3d311d;--code:#202e29;--shadow:none}.lede{color:#cbd8d2}pre{background:#0c1511}.reading{color:#cbd8d2}}
+    @media print{body{background:#fff;color:#111}.page{max-width:none;padding:0}header,section{box-shadow:none}nav{display:none}.layout{display:block}.qa{break-inside:avoid}}
+  </style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="eyebrow">Web調査報告 · 2026-09-29</div>
+    <h1>Jev入門</h1>
+    <p>Jevとは何か。NoulとChoiceへ何をリクエストし、どのようなリターンを受け取るのか。日本語のQA例を中心に、入出力を一組で整理する。</p>
+    <div class="meta">対象: TypeSafe AI Jev 1.13 ／ 公式資料・公開SDK・独立実装を参照</div>
+  </header>
+
+  <div class="layout">
+    <nav aria-label="目次">
+      <strong>CONTENTS</strong>
+      <a href="#what">1. Jevとは何か</a><a href="#overview">2. リクエストとリターン</a><a href="#noul">3. Noulの入出力</a><a href="#choice">4. Choiceの入出力</a><a href="#qa-noul">5. Noulの日本語QA</a><a href="#qa-choice">6. Choiceの日本語QA</a><a href="#compare">7. 同じ内容を聞き分ける</a><a href="#open">8. 類似する公開モデル</a><a href="#sources">9. 参考資料</a>
+    </nav>
+
+    <main>
+      <section id="what">
+        <h2>1. Jevとは何か</h2>
+        <p class="lede">Jevは、文章を生成するチャットモデルではなく、ソフトウェアの中で使う<strong>判断専用モデル</strong>です。</p>
+        <p>TypeSafe AIはJevを最初の「System One Model」と説明しています。入力として、判断対象の文章やJSONである <code>state</code> と、回答形式を決めた <code>questions</code> を渡します。Jevは説明文を生成せず、あらかじめ定めた候補、段階、または「はい」の確率を構造化データとして返します。<sup><a href="#s1">[1]</a><a href="#s2">[2]</a></sup></p>
+        <div class="flow" aria-label="Jevの入出力"><div><b>状態</b><br><code>state</code><br>文章・JSON</div><div class="arrow">→</div><div><b>型付き質問</b><br>Noul・Choice・Score</div><div class="arrow">→</div><div><b>構造化回答</b><br>値と確率</div></div>
+        <div class="grid"><div class="card"><b>文章を生成しない</b>返すのは、「はい」の確率、候補名、候補別確率などです。</div><div class="card"><b>候補を先に決める</b>Choiceでは、回答可能な選択肢を呼び出し側が定義します。</div><div class="card"><b>確率も返す</b>単なるラベルではなく、判断の不確実性を数値として扱います。</div></div>
+        <div class="warning"><strong>公開範囲:</strong> API仕様とPython／JavaScript SDKは公開されていますが、Jev本体の重み、詳細アーキテクチャ、完全な学習方法は公開されていません。Jevそのものはオープンウェイトモデルではありません。</div>
+        <h3>三つの質問形式</h3>
+        <div class="table-wrap"><table><thead><tr><th>形式</th><th>リクエストで送る質問</th><th>リターンで受け取る値</th></tr></thead><tbody><tr><td><strong>Noul</strong></td><td><code>type: noul</code> と、一つの「はい／いいえ」命題を <code>instructions</code> に入れる</td><td>「はい」の確率 <code>noul</code></td></tr><tr><td><strong>Choice</strong></td><td><code>type: choice</code>、質問を <code>instructions</code>、固定候補を <code>criteria</code> に入れる</td><td><code>choice</code>、候補別 <code>probabilities</code>、<code>confidence</code></td></tr><tr><td><strong>Score</strong></td><td><code>type: score</code>、質問と順序付き段階を送る</td><td>段階の期待値、段階別確率、<code>confidence</code></td></tr></tbody></table></div>
+        <p>本稿は、ご要望の中心であるNoulとChoiceに絞って説明します。</p>
+      </section>
+
+      <section id="overview">
+        <h2>2. Jevへのリクエストとリターンの全体像</h2>
+        <p>Jevへは、評価対象の <code>state</code>、利用モデルの <code>model</code>、型付き質問の <code>questions</code> を送ります。一つのリクエストにNoulとChoiceを混在させられます。リターンでは、各質問がリクエスト時と同じ質問IDの下に入ります。<sup><a href="#s1">[1]</a><a href="#s3">[3]</a><a href="#s4">[4]</a></sup></p>
+        <div class="io-pair">
+          <div class="io"><div class="io-title">送るリクエスト（POST /v1/systemone）</div><pre><code>{
+  "model": "jev-latest",
+  "state": "商品を返品したので、代金を返してください。",
+  "questions": {
+    "返金を希望しているか": {
+      "type": "noul",
+      "instructions": "顧客は返金を希望していますか。"
+    },
+    "担当部署": {
+      "type": "choice",
+      "instructions": "どの担当部署が対応すべきですか。",
+      "criteria": {
+        "請求担当": "返金、請求、支払いの問題",
+        "技術担当": "製品やサービスの技術的不具合",
+        "その他": "上記に当てはまらない問題"
+      }
+    }
+  }
+}</code></pre></div>
+          <div class="io-arrow" aria-hidden="true">→</div>
+          <div class="io return"><div class="io-title">返るリターン</div><pre><code>{
+  "model": "jev-1.13.0",
+  "answers": {
+    "返金を希望しているか": {
+      "type": "noul",
+      "noul": 0.99
+    },
+    "担当部署": {
+      "type": "choice",
+      "choice": "請求担当",
+      "confidence": 0.97,
+      "probabilities": {
+        "請求担当": 0.98,
+        "技術担当": 0.01,
+        "その他": 0.01
+      }
+    }
+  }
+}</code></pre></div>
+        </div>
+        <p class="caption">構造を説明するための日本語合成例です。APIのフィールド名は公式仕様に合わせて英語のまま記載しています。</p>
+        <h3>リクエスト側のフィールド</h3>
+        <div class="table-wrap"><table><thead><tr><th>フィールド</th><th>何を入れるか</th></tr></thead><tbody><tr><td><code>model</code></td><td>使用するモデル。例: <code>jev-latest</code></td></tr><tr><td><code>state</code></td><td>Jevに判断させる対象。文章、オブジェクト、配列を渡せる</td></tr><tr><td><code>questions</code></td><td>質問IDをキー、質問定義を値とするオブジェクト</td></tr><tr><td><code>type</code></td><td>質問形式。Noulなら <code>noul</code>、Choiceなら <code>choice</code></td></tr><tr><td><code>instructions</code></td><td>stateについて何を判断するか</td></tr><tr><td><code>criteria</code></td><td>Noulでは任意の真偽基準、Choiceでは候補名と説明</td></tr></tbody></table></div>
+        <h3>リターン側のフィールド</h3>
+        <div class="table-wrap"><table><thead><tr><th>フィールド</th><th>日本語での意味</th><th>登場する形式</th></tr></thead><tbody><tr><td><code>answers</code></td><td>質問IDごとの回答。IDはリクエストの <code>questions</code> と対応する</td><td>両方</td></tr><tr><td><code>type</code></td><td>回答形式。<code>noul</code> または <code>choice</code></td><td>両方</td></tr><tr><td><code>noul</code></td><td>「はい」または「真」である確率</td><td>Noul</td></tr><tr><td><code>choice</code></td><td>候補別確率が最大だった候補</td><td>Choice</td></tr><tr><td><code>probabilities</code></td><td>各候補へ割り当てた確率。合計は1</td><td>Choice</td></tr><tr><td><code>confidence</code></td><td>候補間の分布がどれほど明確に一つへ集中しているかの要約</td><td>Choice</td></tr></tbody></table></div>
+      </section>
+
+      <section id="noul">
+        <h2>3. Noulには何を送り、何が返るか</h2>
+        <p class="lede">Noulは、一つの「はい／いいえ」質問または真偽命題に対して、<strong>「はい」または「真」の確率を一つ返す</strong>形式です。</p>
+        <div class="io-pair"><div class="io"><div class="io-title">送るNoulリクエスト</div><pre><code>{
+  "model": "jev-latest",
+  "state": "商品を返品したので、代金を返してください。",
+  "questions": {
+    "返金希望": {
+      "type": "noul",
+      "instructions": "顧客は返金を希望していますか。"
+    }
+  }
+}</code></pre></div><div class="io-arrow" aria-hidden="true">→</div><div class="io return"><div class="io-title">返るNoulリターン</div><pre><code>{
+  "model": "jev-1.13.0",
+  "answers": {
+    "返金希望": {
+      "type": "noul",
+      "noul": 0.99
+    }
+  }
+}</code></pre></div></div>
+        <p>リクエストで付けた質問ID <code>返金希望</code> が、そのままリターンの <code>answers</code> 内のキーになります。Noulでは <code>criteria</code> は任意で、必要なら「何をはい／いいえと数えるか」を追加できます。</p>
+        <div class="callout"><strong>Noulの最重要点</strong><p><code>noul: 0.90</code> は「はいである確率が90%」。<code>noul: 0.10</code> は「はいが10%、いいえが90%」です。0.10を「自信が10%」とは読みません。</p></div>
+        <div class="table-wrap"><table><thead><tr><th>戻り値</th><th>読み方</th></tr></thead><tbody><tr><td><code>noul: 0.99</code></td><td>非常に強い「はい」。「いいえ」は約0.01</td></tr><tr><td><code>noul: 0.75</code></td><td>「はい」寄りだが、不確実性が残る</td></tr><tr><td><code>noul: 0.50</code></td><td>「はい」と「いいえ」が同程度</td></tr><tr><td><code>noul: 0.20</code></td><td>「いいえ」寄り。「いいえ」は約0.80</td></tr><tr><td><code>noul: 0.01</code></td><td>非常に強い「いいえ」。「いいえ」は約0.99</td></tr></tbody></table></div>
+        <p>Noulには別の <code>confidence</code> フィールドがありません。二値分布は、「はい」の確率一つが分かれば、「いいえ」の確率を <code>1 − noul</code> で求められるためです。<sup><a href="#s3">[3]</a></sup></p>
+      </section>
+
+      <section id="choice">
+        <h2>4. Choiceには何を送り、何が返るか</h2>
+        <p class="lede">Choiceは、呼び出し側が用意した候補の中から一つを選び、同時に全候補の確率分布を返します。</p>
+        <div class="grid"><div class="card"><b>choice</b>候補別確率が最も大きい候補名。</div><div class="card"><b>probabilities</b>全候補の確率。全体で約1になる。</div><div class="card"><b>confidence</b>分布が一候補へ集中している程度の要約。</div></div>
+        <h3>明確なChoiceのリクエストとリターン</h3>
+        <div class="io-pair"><div class="io"><div class="io-title">送るChoiceリクエスト</div><pre><code>{
+  "model": "jev-latest",
+  "state": "同じ金額が二度引き落とされました。",
+  "questions": {
+    "担当部署": {
+      "type": "choice",
+      "instructions": "どの担当部署が対応すべきですか。",
+      "criteria": {
+        "請求担当": "請求や支払いの問題",
+        "技術担当": "技術的不具合",
+        "その他": "上記以外"
+      }
+    }
+  }
+}</code></pre></div><div class="io-arrow" aria-hidden="true">→</div><div class="io return"><div class="io-title">返るChoiceリターン</div><pre><code>{
+  "model": "jev-1.13.0",
+  "answers": {
+    "担当部署": {
+      "type": "choice",
+      "choice": "請求担当",
+      "confidence": 0.97,
+      "probabilities": {
+        "請求担当": 0.98,
+        "技術担当": 0.01,
+        "その他": 0.01
+      }
+    }
+  }
+}</code></pre></div></div>
+        <p><code>choice</code> だけでなく、請求担当が0.98、他候補が0.01ずつであることを一緒に読みます。候補間に明確な差があるため、confidenceも高くなります。</p>
+        <h3>同じリクエスト形式でも、入力が曖昧ならリターンも分かれる</h3>
+        <div class="io-pair"><div class="io"><div class="io-title">送るChoiceリクエスト</div><pre><code>{
+  "model": "jev-latest",
+  "state": "商品が届かず、もう不要なので返金したい。",
+  "questions": {
+    "担当部署": {
+      "type": "choice",
+      "instructions": "最初に対応すべき部署はどこですか。",
+      "criteria": {
+        "配送担当": "未着や配送遅延",
+        "返品担当": "返品や交換",
+        "請求担当": "返金や支払い"
+      }
+    }
+  }
+}</code></pre></div><div class="io-arrow" aria-hidden="true">→</div><div class="io return"><div class="io-title">返るChoiceリターン</div><pre><code>{
+  "model": "jev-1.13.0",
+  "answers": {
+    "担当部署": {
+      "type": "choice",
+      "choice": "配送担当",
+      "confidence": 0.18,
+      "probabilities": {
+        "配送担当": 0.45,
+        "返品担当": 0.45,
+        "請求担当": 0.10
+      }
+    }
+  }
+}</code></pre></div></div>
+        <p>形式上は一つの <code>choice</code> が返りますが、分布を見ると配送担当と返品担当が同程度です。<code>choice</code> だけを読んで「配送担当で明確に決まった」と扱ってはいけません。</p>
+        <div class="warning"><strong>confidenceは候補の生の確率ではありません。</strong> 公式資料では、Choiceの確率分布の形から計算する0〜1の要約統計と説明されています。正確な計算式は公開仕様になっていません。したがって、実務では <code>confidence</code> だけでなく全 <code>probabilities</code> を保存するのが安全です。<sup><a href="#s4">[4]</a><a href="#s5">[5]</a></sup></div>
+      </section>
+
+      <section id="qa-noul">
+        <h2>5. Noulの日本語QA例</h2>
+        <p>すべて「送るリクエスト」と「返るリターン」を一組で示します。各例のリクエストには共通して <code>model: "jev-latest"</code> を指定するものとします。数値は日本語入力に対するJevの実測値ではなく、入出力の読み方を示す説明用例です。</p>
+        <div class="qa-list">
+          <article class="qa"><div class="qa-head">Noul例1 — 明確な「はい」</div><div class="qa-body"><div class="mini-io"><div><b>送るリクエスト</b><code>state:</code> 商品を返品したので、代金を返してください。<br><code>questions.返金希望.type:</code> noul<br><code>questions.返金希望.instructions:</code> 顧客は返金を希望していますか。</div><div><b>返るリターン</b><code>answers.返金希望.type:</code> noul<br><code>answers.返金希望.noul:</code> 0.99<br>日本語で読むと: 「はい」の確率99%</div></div><p class="reading">リクエストの質問ID「返金希望」に対応して、同じIDの下にNoul値が返ります。</p></div></article>
+          <article class="qa"><div class="qa-head">Noul例2 — 返金不要が明示された「いいえ」</div><div class="qa-body"><div class="mini-io"><div><b>送るリクエスト</b><code>state:</code> 商品はそのまま使います。返品も返金も必要ありません。領収書だけ再発行してください。<br><code>questions.返金希望.type:</code> noul<br><code>questions.返金希望.instructions:</code> 顧客は返金を希望していますか。</div><div><b>理想的なリターン</b><code>answers.返金希望.type:</code> noul<br><code>answers.返金希望.noul:</code> 0.01<br>日本語で読むと: 「はい」1%、「いいえ」99%</div></div><p class="reading">返金とは無関係な話題を置くのではなく、「返金は必要ない」と明記しています。したがってNo.3の情報不足例とは異なり、明確な「いいえ」です。</p></div></article>
+          <article class="qa"><div class="qa-head">Noul例3 — 判断材料が不足</div><div class="qa-body"><div class="mini-io"><div><b>送るリクエスト</b><code>state:</code> 注文について確認したいことがあります。<br><code>questions.返金希望.type:</code> noul<br><code>questions.返金希望.instructions:</code> 顧客は返金を希望していますか。</div><div><b>返るリターン</b><code>answers.返金希望.type:</code> noul<br><code>answers.返金希望.noul:</code> 0.50前後<br>日本語で読むと: 「はい」と「いいえ」が同程度</div></div><p class="reading">stateに返金の情報がないため、命題をどちらとも決めにくい場合の説明用リターンです。</p></div></article>
+          <article class="qa"><div class="qa-head">Noul例4 — 確定した命題</div><div class="qa-body"><div class="mini-io"><div><b>送るリクエスト</b><code>state:</code> 通常の整数算術を前提とする。<br><code>questions.命題判定.type:</code> noul<br><code>questions.命題判定.instructions:</code> 1足す1は2ですか。</div><div><b>理想的なリターン</b><code>answers.命題判定.type:</code> noul<br><code>answers.命題判定.noul:</code> 1.00<br>日本語で読むと: 「はい」の確率100%</div></div><p class="reading">命題自体の理想値は1です。ただし公式資料は、Jev 1.13を計算機として使わず、算術はコードで処理するよう勧めています。</p></div></article>
+          <article class="qa"><div class="qa-head">Noul例5 — 公平なコイン</div><div class="qa-body"><div class="mini-io"><div><b>送るリクエスト</b><code>state:</code> 偏りのないコインを、これから1回投げる。<br><code>questions.表が出るか.type:</code> noul<br><code>questions.表が出るか.instructions:</code> 次は表が出ますか。</div><div><b>理想的なリターン</b><code>answers.表が出るか.type:</code> noul<br><code>answers.表が出るか.noul:</code> 0.50<br>日本語で読むと: 表50%、裏50%</div></div><p class="reading">質問は「表が出るか」という一つの命題なので、Noulは「はい」に当たる表の確率を返します。</p></div></article>
+          <article class="qa"><div class="qa-head">Noul例6 — 公平な6面サイコロ</div><div class="qa-body"><div class="mini-io"><div><b>送るリクエスト</b><code>state:</code> 偏りのない6面サイコロを、これから1回振る。<br><code>questions.一が出るか.type:</code> noul<br><code>questions.一が出るか.instructions:</code> 次に出る目は1ですか。</div><div><b>理想的なリターン</b><code>answers.一が出るか.type:</code> noul<br><code>answers.一が出るか.noul:</code> 1/6 ≈ 0.167<br>日本語で読むと: 1が出る16.7%、1以外83.3%</div></div><p class="reading">Noulでは「1が出る」という命題を評価するため、1/6が「はい」の確率になります。</p></div></article>
+          <article class="qa"><div class="qa-head">Noul例7 — 個人情報の検出</div><div class="qa-body"><div class="mini-io"><div><b>送るリクエスト</b><code>state:</code> 連絡先欄に、氏名［例示用氏名］と電話番号［例示用番号］が記載されています。<br><code>questions.個人情報.type:</code> noul<br><code>questions.個人情報.instructions:</code> この文章に個人情報が含まれていますか。</div><div><b>理想的なリターン</b><code>answers.個人情報.type:</code> noul<br><code>answers.個人情報.noul:</code> 0.99<br>日本語で読むと: 「はい」の確率99%</div></div><p class="reading">実在情報を使わないプレースホルダーですが、項目として氏名と電話番号が含まれるため、個人情報を含むという命題は明確に「はい」です。</p></div></article>
+          <article class="qa"><div class="qa-head">Noul例8 — 承認条件の充足判定</div><div class="qa-body"><div class="mini-io"><div><b>送るリクエスト</b><code>state:</code> 経費申請額は8万円。5万円超は部長承認が必要だが、部長承認はまだない。<br><code>questions.承認条件.type:</code> noul<br><code>questions.承認条件.instructions:</code> この申請は支払い実行の承認条件を満たしていますか。</div><div><b>理想的なリターン</b><code>answers.承認条件.type:</code> noul<br><code>answers.承認条件.noul:</code> 0.01<br>日本語で読むと: 「いいえ」の確率99%</div></div><p class="reading">規程条件と申請状態を照合する例です。必要な部長承認がないので「いいえ」が理想です。</p></div></article>
+        </div>
+      </section>
+
+      <section id="qa-choice">
+        <h2>6. Choiceの日本語QA例</h2>
+        <p>Choiceでは、リクエストの <code>criteria</code> に候補名と各候補の説明を入れます。以下もすべて、送る内容と返る内容を一組にした説明用例です。</p>
+        <div class="qa-list">
+          <article class="qa"><div class="qa-head">Choice例1 — 明確な担当部署</div><div class="qa-body"><div class="mini-io"><div><b>送るリクエスト</b><code>state:</code> クレジットカードから同じ金額が二度引き落とされました。<br><code>questions.担当部署.type:</code> choice<br><code>instructions:</code> どの担当部署が対応すべきですか。<br><code>criteria:</code> 請求担当／技術担当／その他（各候補の説明も送る）</div><div><b>返るリターン</b><code>answers.担当部署.choice:</code> 請求担当<br><code>probabilities:</code> {請求担当: 0.98, 技術担当: 0.01, その他: 0.01}<br><code>confidence:</code> 0.97</div></div><p class="reading">リクエストで定義した候補のうち請求担当が選ばれ、候補別確率とconfidenceも同時に返ります。</p></div></article>
+          <article class="qa"><div class="qa-head">Choice例2 — 二つの候補で迷う</div><div class="qa-body"><div class="mini-io"><div><b>送るリクエスト</b><code>state:</code> 商品がまだ届きません。もう不要なので返金してください。<br><code>questions.担当部署.type:</code> choice<br><code>instructions:</code> 最初に対応すべき担当部署はどこですか。<br><code>criteria:</code> 配送担当／返品担当／請求担当</div><div><b>返るリターン</b><code>answers.担当部署.choice:</code> 配送担当（同率時の代表値の例）<br><code>probabilities:</code> {配送担当: 0.45, 返品担当: 0.45, 請求担当: 0.10}<br><code>confidence:</code> 0.18</div></div><p class="reading">リターンの <code>choice</code> は一つでも、全分布を見ると配送担当と返品担当が同程度です。</p></div></article>
+          <article class="qa"><div class="qa-head">Choice例3 — 「その他」が必要</div><div class="qa-body"><div class="mini-io"><div><b>送るリクエスト</b><code>state:</code> サービスを退会して、登録情報を削除したいです。<br><code>questions.問い合わせ種類.type:</code> choice<br><code>instructions:</code> 問い合わせの種類はどれですか。<br><code>criteria:</code> 請求／技術的不具合／その他</div><div><b>返るリターン</b><code>answers.問い合わせ種類.choice:</code> その他<br><code>probabilities:</code> {請求: 0.02, 技術的不具合: 0.01, その他: 0.97}<br><code>confidence:</code> 0.96</div></div><p class="reading">リクエストの候補が現実を網羅しない場合に備え、「その他」や「該当なし」も候補として送ります。</p></div></article>
+          <article class="qa"><div class="qa-head">Choice例4 — 公平なコイン</div><div class="qa-body"><div class="mini-io"><div><b>送るリクエスト</b><code>state:</code> 偏りのないコインを、これから1回投げる。<br><code>questions.出る面.type:</code> choice<br><code>instructions:</code> 次に出る面はどちらですか。<br><code>criteria:</code> 表／裏</div><div><b>理想的なリターン</b><code>answers.出る面.choice:</code> 表（同率時の代表値の例）<br><code>probabilities:</code> {表: 0.50, 裏: 0.50}<br><code>confidence:</code> 0</div></div><p class="reading">リクエストは二候補から一つを選ばせますが、理想的な分布は同率です。<code>choice</code> より全候補の確率を重視して読みます。</p></div></article>
+          <article class="qa"><div class="qa-head">Choice例5 — 公平な6面サイコロ</div><div class="qa-body"><div class="mini-io"><div><b>送るリクエスト</b><code>state:</code> 偏りのない6面サイコロを、これから1回振る。<br><code>questions.出る目.type:</code> choice<br><code>instructions:</code> 次に出る目はどれですか。<br><code>criteria:</code> 1／2／3／4／5／6</div><div><b>理想的なリターン</b><code>answers.出る目.choice:</code> 1（同率時の代表値の例）<br><code>probabilities:</code> {1: 1/6, 2: 1/6, 3: 1/6, 4: 1/6, 5: 1/6, 6: 1/6}<br><code>confidence:</code> 0</div></div><p class="reading">リクエストで指定した六候補は同率です。回答欄の数字一つより、全候補が1/6というリターンの分布が重要です。</p></div></article>
+          <article class="qa"><div class="qa-head">Choice例6 — 明確な感情判定</div><div class="qa-body"><div class="mini-io"><div><b>送るリクエスト</b><code>state:</code> すぐに対応していただき、本当に助かりました。ありがとうございます。<br><code>questions.感情.type:</code> choice<br><code>instructions:</code> この文章の感情はどれですか。<br><code>criteria:</code> 肯定的／中立／否定的／判断不能</div><div><b>返るリターン</b><code>answers.感情.choice:</code> 肯定的<br><code>probabilities:</code> {肯定的: 0.98, 中立: 0.01, 否定的: 0.005, 判断不能: 0.005}<br><code>confidence:</code> 0.97</div></div><p class="reading">リクエストのstateに感謝が明示されているため、リターンでは一候補へ確率が集中します。</p></div></article>
+          <article class="qa"><div class="qa-head">Choice例7 — 文章の言語判定</div><div class="qa-body"><div class="mini-io"><div><b>送るリクエスト</b><code>state:</code> この商品は明日発送予定です。<br><code>questions.言語.type:</code> choice<br><code>instructions:</code> この文章で主に使われている言語はどれですか。<br><code>criteria:</code> 日本語／英語／日本語と英語の混在／その他</div><div><b>理想的なリターン</b><code>answers.言語.choice:</code> 日本語<br><code>probabilities:</code> {日本語: 0.995, 英語: 0.001, 日本語と英語の混在: 0.002, その他: 0.002}<br><code>confidence:</code> 0.99前後</div></div><p class="reading">文章全体が日本語なので、一候補が明確に優勢になる例です。</p></div></article>
+          <article class="qa"><div class="qa-head">Choice例8 — 文書種類の判定</div><div class="qa-body"><div class="mini-io"><div><b>送るリクエスト</b><code>state:</code> 請求番号A-104、支払期限10月31日、合計金額55,000円（税込）<br><code>questions.文書種類.type:</code> choice<br><code>instructions:</code> この文書の種類はどれですか。<br><code>criteria:</code> 請求書／契約書／履歴書／その他</div><div><b>理想的なリターン</b><code>answers.文書種類.choice:</code> 請求書<br><code>probabilities:</code> {請求書: 0.98, 契約書: 0.005, 履歴書: 0.005, その他: 0.01}<br><code>confidence:</code> 0.97前後</div></div><p class="reading">請求番号、支払期限、合計金額という特徴から、請求書が明確に優勢です。</p></div></article>
+          <article class="qa"><div class="qa-head">Choice例9 — 中立的な連絡文</div><div class="qa-body"><div class="mini-io"><div><b>送るリクエスト</b><code>state:</code> 資料を受け取りました。内容を確認して、明日までに連絡します。<br><code>questions.感情.type:</code> choice<br><code>instructions:</code> この文章の感情はどれですか。<br><code>criteria:</code> 肯定的／中立／否定的／判断不能</div><div><b>理想的なリターン</b><code>answers.感情.choice:</code> 中立<br><code>probabilities:</code> {肯定的: 0.02, 中立: 0.92, 否定的: 0.02, 判断不能: 0.04}<br><code>confidence:</code> 0.89前後</div></div><p class="reading">感謝や不満ではなく、受領と今後の予定を事務的に述べているため、中立が理想です。</p></div></article>
+        </div>
+      </section>
+
+      <section id="compare">
+        <h2>7. 同じサイコロをNoulとChoiceで聞くと何が違うか</h2>
+        <div class="table-wrap"><table><thead><tr><th>質問形式</th><th>リクエストで送る内容</th><th>理想的なリターン</th></tr></thead><tbody><tr><td><strong>Noul</strong></td><td><code>type: noul</code><br><code>instructions:</code> 次の目は1ですか。</td><td><code>noul: 1/6</code>。1という命題の「はい」の確率</td></tr><tr><td><strong>Choice</strong></td><td><code>type: choice</code><br><code>instructions:</code> 次の目はどれですか。<br><code>criteria:</code> 1／2／3／4／5／6</td><td>各候補が1/6。どれか一つが <code>choice</code> に入り、候補間の優劣がないため <code>confidence: 0</code></td></tr></tbody></table></div>
+        <div class="callout"><strong>結論</strong><p>Noulの <code>1/6</code> とChoiceの <code>confidence: 0</code> は、同じ数値を表しているのではありません。前者は「1が出る確率」、後者は「6候補の中に突出した候補がないこと」を表します。</p></div>
+        <h3>Choiceと複数Noulも同じではない</h3>
+        <p>Choiceは候補同士を比較し、候補別確率の合計が約1になります。一方、「請求問題か」「配送問題か」を別々のNoulで聞くと、それぞれを独立した「はい／いいえ」の命題として評価します。一つの問い合わせが請求問題でも配送問題でもあるなら、両方のNoulが高くなることがあります。公式資料も、Choiceは相対的な選択、Noulは絶対的な命題評価であり、別質問間の数値関係を自動的に仮定しないよう注意しています。<sup><a href="#s6">[6]</a></sup></p>
+      </section>
+
+      <section id="open">
+        <h2>8. Jevに類似する公開モデル</h2>
+        <p>Jev本体は非公開ですが、同じようにstateと型付き質問から候補別確率を返す公開実装があります。API形状が同じでも、モデルの判断特性や確率の調整状態まで同じとは限りません。</p>
+        <div class="table-wrap"><table><thead><tr><th>名称</th><th>方式</th><th>特徴</th></tr></thead><tbody><tr><td><a href="https://github.com/NandhaKishorM/laya">Laya</a></td><td>ModernBERT／mmBERT系の判断モデル</td><td>小型、多言語版、Jev互換サーバー</td></tr><tr><td><a href="https://github.com/jaredpalmer/kev">Kev</a></td><td>Qwen系モデルと判断用head</td><td>複数サイズと公開モデルカード</td></tr><tr><td><a href="https://github.com/Zefan-Cai/Open-Jev">Open-Jev</a></td><td>Qwen系LoRAと判断用head</td><td>2B／9B／27B、学習・評価資料を公開</td></tr><tr><td><a href="https://github.com/nokia-applied-research/AnyJev">AnyJev</a></td><td>既存LLMのlogitや中間表現を利用</td><td>既存の公開LLMを型付き判断へ変換</td></tr><tr><td><a href="https://github.com/nico-martin/open-jev">open-jev</a></td><td>Kev等をTransformers.jsで実行</td><td>ブラウザのWebGPU／WASMでローカル実行</td></tr></tbody></table></div>
+      </section>
+
+      <section id="sources">
+        <h2>9. 主要参考資料</h2>
+        <ol class="source-list"><li id="s1"><a href="https://docs.typesafe.ai/introduction">TypeSafe AI — Introduction</a></li><li id="s2"><a href="https://docs.typesafe.ai/concepts/system-one">TypeSafe AI — System One</a></li><li id="s3"><a href="https://docs.typesafe.ai/primitives/noul">TypeSafe AI — Noul</a></li><li id="s4"><a href="https://docs.typesafe.ai/primitives/choice">TypeSafe AI — Choice</a></li><li id="s5"><a href="https://docs.typesafe.ai/confidence">TypeSafe AI — Confidence</a></li><li id="s6"><a href="https://docs.typesafe.ai/model-jaggedness/jev-1.13">TypeSafe AI — Jev 1.13 jaggedness</a></li><li><a href="https://docs.typesafe.ai/introduction/machine-learning-primer">TypeSafe AI — AI primer</a></li><li><a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">Introducing System One Models &amp; Jev</a></li><li><a href="https://github.com/typesafe-ai/typesafe-sdk-python/blob/main/src/typesafe_sdk/_schemas/models.py">公式Python SDKの応答スキーマ</a></li><li><a href="https://github.com/NandhaKishorM/laya">Laya</a></li><li><a href="https://github.com/jaredpalmer/kev">Kev</a></li><li><a href="https://github.com/Zefan-Cai/Open-Jev">Open-Jev</a></li><li><a href="https://github.com/nokia-applied-research/AnyJev">AnyJev</a></li><li><a href="https://github.com/nico-martin/open-jev">ブラウザ向けopen-jev</a></li></ol>
+        <div class="warning"><strong>例の位置付け:</strong> 本稿の日本語QAと数値は、戻り値の意味を説明するための例です。Jevの日本語入力に対する実測結果ではありません。実サービスで利用する場合は、使用するモデル版と実際の日本語データで挙動を確認してください。</div>
+      </section>
+      <div class="footer">JEV WEB調査結果 · 2026-09-29</div>
+    </main>
+  </div>
+</div>
+</body>
+</html>
