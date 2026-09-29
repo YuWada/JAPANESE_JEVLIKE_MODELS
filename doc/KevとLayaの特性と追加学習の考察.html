@@ -41,11 +41,11 @@
     <main>
       <section id="summary">
         <h2>1. 結論</h2>
-        <p class="lede">通常状態の幅広い理解ではKevが優位になりやすく、固定された狭い判断を高速に繰り返す用途ではLayaを特化させる価値が高い。</p>
+        <p class="lede">通常状態の幅広い理解ではKevが優位になりやすく、固定された狭い判断を高速に繰り返す用途ではLayaを特化させる価値が高い。さらにKevには、追加学習の前に、より大きな公開モデルを出発点として選べるという選択肢がある。</p>
         <div class="callout"><strong>今回得られた中心的な教訓</strong><p>小型モデルへ大量の「一般的な日本語問題」を追加しても、あらゆる問いに対する能力が一様に上がるとは限らない。一方、実際に本番で尋ねる質問、その質問で使う選択肢、実際に現れる発話、間違いやすい反例を揃え、用途を限定して学習すれば、精度と速度を両立できる可能性がある。</p></div>
         <div class="grid">
-          <article class="card kev"><h3>Kev</h3><p><span class="tag">汎用寄り</span><span class="tag">Qwen系</span></p><p>生成LLMの事前学習表現を利用するため、未学習の言い回しや条件理解に比較的強い。ただしLayaより大きく、追加学習と推論は重い。</p></article>
-          <article class="card laya"><h3>Laya</h3><p><span class="tag">特化向き</span><span class="tag">Encoder系</span></p><p>小型・高速で、決められた分類やルーティングへ適応させやすい。反面、学習範囲外の知識や未知パターンへのゼロショット対応には期待しすぎない方がよい。</p></article>
+          <article class="card kev"><h3>Kev</h3><p><span class="tag">汎用寄り</span><span class="tag">Qwen系</span><span class="tag">大型化可能</span></p><p>生成LLMの事前学習表現を利用するため、未学習の言い回しや条件理解に比較的強い。0.8Bだけでなく4B・9B・27Bの公開モデルがあり、より強い基盤モデルから開始する選択肢もある。</p></article>
+          <article class="card laya"><h3>Laya</h3><p><span class="tag">特化向き</span><span class="tag">Encoder系</span><span class="tag">固定規模</span></p><p>小型・高速で、決められた分類やルーティングへ適応させやすい。反面、日本語・多言語向けの大型系列はなく、改善の中心は学習範囲とデータ設計による用途特化になる。</p></article>
         </div>
       </section>
 
@@ -54,6 +54,7 @@
         <div class="table-wrap"><table><thead><tr><th>観点</th><th class="kev-text">Kev</th><th class="laya-text">Laya</th></tr></thead><tbody>
           <tr><td>土台</td><td>Qwen3.5系のCausal言語モデル</td><td>ModernBERT／mmBERT系の双方向Encoder</td></tr>
           <tr><td>今回のモデル規模</td><td>約0.8B</td><td>約322M</td></tr>
+          <tr><td>公式のサイズ展開</td><td>0.8B・4B・9B・27B。用途と計算資源に応じて、より大きな基盤モデルを選べる</td><td>多言語版322M、英語版・typed-decisions版421M。日本語・多言語向けの大型系列はない</td></tr>
           <tr><td>文章の読み方</td><td>基本的に左から右へ処理する</td><td>全文の前後関係を双方向に処理する</td></tr>
           <tr><td>判断部分</td><td>Pointer headが判断位置と選択肢表現を比較</td><td>Decision headで処理し、各候補マーカーをScorerで採点</td></tr>
           <tr><td>得意な方向</td><td>広めの文章理解、条件適用、未知表現への対応</td><td>固定分類、意図判定、業務ルーティング、高速処理</td></tr>
@@ -124,6 +125,11 @@
         <h3>Kev強化版は確率分布が改善しても最終ラベルが減った</h3>
         <p>Kev強化版は21問中15問で理想分布へ近づいたが、回答一致数は16問から15問へ減った。多くの例で数値が望ましい方向へ動いても、0.5の判定境界をまたいで誤答になる問題があった。また、要求を積極的に検出する方向へ寄り、独り言や条件不一致まで要求として拾う回帰も見られた。ここでも、確率分布の変化を汎用的な性能向上と同一視すべきではない。</p>
         <p>この結果は、追加学習の成功を平均損失だけで判断せず、質問群ごとの回答、確率校正、誤作動率を別々に見る必要があることを示す。</p>
+
+        <h3>Kevには「より強い出発点へ替える」という選択肢がある</h3>
+        <p>今回評価したKevは最小クラスの0.8Bだが、公式には4B・9B・27Bも公開されている。したがって、0.8Bへの追加学習で汎用理解が不足する場合、データを増やすだけでなく、より大きなKevを基盤として採用し、そこから対象QAへ追加学習する方針を選べる。</p>
+        <p>Layaにも英語向け421Mとtyped-decisions向け421Mはあるが、日本語を含む多言語の一般用途では322Mの<code>laya-multilingual</code>が中心であり、Kevのような0.8Bから27Bまでの大型化系列はない。Layaで性能を上げる主な手段は、より大きな汎用モデルへの載せ替えではなく、質問、候補、対象データ、誤りやすい反例を絞った特化学習になる。</p>
+        <div class="callout"><strong>改善手段の違い</strong><p>Kevは「より大きな基盤モデルを選ぶ」と「対象QAへ追加学習する」の二つを組み合わせられる。Layaは日本語・多言語用途では大型化の選択肢が限られるため、「用途を狭く定義し、専用データで特化する」ことの重要性がより高い。</p></div>
       </section>
 
       <section id="specialize">
@@ -144,8 +150,8 @@
       <section id="selection">
         <h2>7. KevとLayaの使い分け</h2>
         <div class="decision">
-          <div><h3 class="kev-text">Kevを選びやすい条件</h3><ul><li>質問や文章の種類が比較的広い</li><li>未学習の言い回しにもある程度対応したい</li><li>複雑な条件文や規程を読ませたい</li><li>多少の計算資源・遅延を許容できる</li><li>まず強い通常版から始めたい</li></ul></div>
-          <div><h3 class="laya-text">Layaを選びやすい条件</h3><ul><li>質問と候補を固定できる</li><li>用途別の教師データを十分に作れる</li><li>大量・低遅延・オンデバイス処理を重視する</li><li>機能ルーティングや意図分類が中心</li><li>用途ごとにモデルを分けてもよい</li></ul></div>
+          <div><h3 class="kev-text">Kevを選びやすい条件</h3><ul><li>質問や文章の種類が比較的広い</li><li>未学習の言い回しにもある程度対応したい</li><li>複雑な条件文や規程を読ませたい</li><li>多少の計算資源・遅延を許容できる</li><li>必要なら4B・9B・27Bへ大型化したい</li></ul></div>
+          <div><h3 class="laya-text">Layaを選びやすい条件</h3><ul><li>質問と候補を固定できる</li><li>用途別の教師データを十分に作れる</li><li>大量・低遅延・オンデバイス処理を重視する</li><li>機能ルーティングや意図分類が中心</li><li>大型化より、用途ごとの専用化を優先する</li></ul></div>
         </div>
         <h3>推奨する実運用構成</h3>
         <div class="flow"><div><b>Laya特化モデル</b><br>固定QAを高速判定</div><div class="arrow">→</div><div><b>低confidence・対象外</b><br>保留、追加確認</div><div class="arrow">→</div><div><b>Kevまたは上位LLM</b><br>複雑例だけ再判断</div></div>
@@ -190,7 +196,7 @@
           <li><a href="https://huggingface.co/convaiinnovations/laya-multilingual">Laya multilingualモデルカード</a></li>
           <li><a href="JEV_WEB調査結果.html">Jev入門 — NoulとChoiceを日本語QAで理解する</a></li>
         </ol>
-        <div class="callout"><strong>要約</strong><p>Kevは、比較的広い理解を持つQwenを判断モデルへ転用する選択肢である。Layaは、高速なEncoderを本番QAへ特化させる選択肢である。小型モデルに「ドメイン全般」を覚えさせようとするより、実際に尋ねる質問と間違いやすい反例へ狭く学習し、対象外を別経路へ逃がす構成の方が、精度、速度、運用上の説明可能性を両立しやすい。</p></div>
+        <div class="callout"><strong>要約</strong><p>Kevは、比較的広い理解を持つQwenを判断モデルへ転用し、必要なら4B・9B・27Bというより強い基盤モデルから始められる。Layaは、高速なEncoderを本番QAへ特化させる選択肢だが、日本語・多言語向けの大型系列はない。特にLayaでは、「ドメイン全般」を覚えさせようとするより、実際に尋ねる質問と間違いやすい反例へ狭く学習し、対象外を別経路へ逃がす構成の方が、精度、速度、運用上の説明可能性を両立しやすい。</p></div>
       </section>
 
       <div class="footer">Kev・Laya 日本語追加学習の比較考察 · 2026-09-29</div>
